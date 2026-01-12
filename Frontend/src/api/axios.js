@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://pft-backend-0di1.onrender.com/",
+  baseURL: "https://pft-backend-0di1.onrender.com/api",
 });
 
 api.interceptors.request.use(
