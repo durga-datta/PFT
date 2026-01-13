@@ -15,6 +15,7 @@ const Profile = () => {
   } = useForm();
 
   const newPassword = watch("newPassword");
+
   useEffect(() => {
     const fetchProfile = async () => {
       const res = await api.get("/profile");
@@ -24,6 +25,7 @@ const Profile = () => {
     };
     fetchProfile();
   }, [setValue]);
+
   const handleNameUpdate = async (data) => {
     if (!isEditingName) {
       setIsEditingName(true);
@@ -49,23 +51,26 @@ const Profile = () => {
   if (loading) return null;
 
   return (
-    <div className="h-screen flex items-center justify-center">
-      <div className="w-full max-w-3xl space-y-6">
-        <h1 className="text-2xl font-bold text-purple-500">
+    <div className="px-4 md:px-6 py-6 md:py-10">
+      <div className="max-w-3xl mx-auto space-y-6">
+        <h1 className="text-xl md:text-2xl font-bold text-purple-500">
           Profile
         </h1>
 
+        {/* USER INFO */}
         <form
           onSubmit={handleSubmit(handleNameUpdate)}
-          className="rounded-xl border border-purple-600 p-6 bg-black"
+          className="rounded-xl border border-purple-600 p-4 md:p-6 bg-black"
         >
-          <h2 className="text-lg font-semibold mb-6">
+          <h2 className="text-base md:text-lg font-semibold mb-4 md:mb-6">
             User Information
           </h2>
 
+          {/* NAME */}
           <div className="mb-4">
             <label className="block text-sm mb-2">Name</label>
-            <div className="flex gap-4">
+
+            <div className="flex flex-col sm:flex-row gap-3">
               <input
                 {...register("name", { required: true })}
                 disabled={!isEditingName}
@@ -78,13 +83,14 @@ const Profile = () => {
 
               <button
                 type="submit"
-                className="px-5 py-2 rounded-full bg-purple-600"
+                className="w-full sm:w-auto px-5 py-2 rounded-full bg-purple-600"
               >
                 {isEditingName ? "Done" : "Update"}
               </button>
             </div>
           </div>
 
+          {/* EMAIL */}
           <div>
             <label className="block text-sm mb-2">Email</label>
             <input
@@ -95,11 +101,12 @@ const Profile = () => {
           </div>
         </form>
 
+        {/* PASSWORD RESET */}
         <form
           onSubmit={handleSubmit(handlePasswordReset)}
-          className="rounded-xl border border-purple-600 p-6 bg-black"
+          className="rounded-xl border border-purple-600 p-4 md:p-6 bg-black"
         >
-          <h2 className="text-lg font-semibold mb-6">
+          <h2 className="text-base md:text-lg font-semibold mb-4 md:mb-6">
             Reset Password
           </h2>
 
@@ -127,7 +134,7 @@ const Profile = () => {
             className="w-full mb-6 bg-transparent border-b py-2"
           />
 
-          <button className="px-6 py-2 rounded-full bg-purple-600">
+          <button className="w-full sm:w-auto px-6 py-2 rounded-full bg-purple-600">
             Reset Password
           </button>
         </form>

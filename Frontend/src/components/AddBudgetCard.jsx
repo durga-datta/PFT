@@ -20,11 +20,7 @@ const getYears = () => {
 };
 
 const AddBudgetCard = ({ onClose, onAdd, editData }) => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-  } = useForm({
+  const { register, handleSubmit, reset } = useForm({
     defaultValues: editData || {
       month: "",
       year: "",
@@ -41,7 +37,7 @@ const AddBudgetCard = ({ onClose, onAdd, editData }) => {
     onAdd({
       category: data.category,
       amount: Number(data.amount),
-      month: formattedMonth, // YYYY-MM (DB format)
+      month: formattedMonth,
     });
 
     reset();
@@ -49,33 +45,36 @@ const AddBudgetCard = ({ onClose, onAdd, editData }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
-      <div className="w-[420px] bg-black border border-purple-600 rounded-xl p-6 shadow-[0_0_40px_rgba(168,85,247,0.6)]">
-        <h2 className="text-xl font-semibold text-center mb-6">
+    <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center px-4">
+      <div className="w-full max-w-md bg-black border border-purple-600 rounded-xl p-5 md:p-6 shadow-[0_0_40px_rgba(168,85,247,0.6)] max-h-[90vh] overflow-y-auto">
+        <h2 className="text-lg md:text-xl font-semibold text-center mb-6">
           {editData ? "Edit Budget" : "Set Monthly Budget"}
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-
           {/* Month + Year */}
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-4">
             <select
               {...register("month", { required: true })}
-              className="w-1/2 bg-black border-b border-gray-500 outline-none py-2"
+              className="w-full bg-black border-b border-gray-500 outline-none py-2"
             >
               <option value="">Month</option>
               {months.map((m) => (
-                <option key={m} value={m}>{m}</option>
+                <option key={m} value={m}>
+                  {m}
+                </option>
               ))}
             </select>
 
             <select
               {...register("year", { required: true })}
-              className="w-1/2 bg-black border-b border-gray-500 outline-none py-2"
+              className="w-full bg-black border-b border-gray-500 outline-none py-2"
             >
               <option value="">Year</option>
               {getYears().map((y) => (
-                <option key={y} value={y}>{y}</option>
+                <option key={y} value={y}>
+                  {y}
+                </option>
               ))}
             </select>
           </div>
@@ -87,7 +86,9 @@ const AddBudgetCard = ({ onClose, onAdd, editData }) => {
           >
             <option value="">Select Category</option>
             {categories.map((c) => (
-              <option key={c} value={c}>{c}</option>
+              <option key={c} value={c}>
+                {c}
+              </option>
             ))}
           </select>
 
@@ -100,18 +101,18 @@ const AddBudgetCard = ({ onClose, onAdd, editData }) => {
           />
 
           {/* Buttons */}
-          <div className="flex justify-between pt-4">
+          <div className="flex flex-col sm:flex-row gap-3 pt-4">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-full border border-gray-500"
+              className="w-full sm:w-auto px-4 py-2 rounded-full border border-gray-500"
             >
               Cancel
             </button>
 
             <button
               type="submit"
-              className="px-6 py-2 rounded-full bg-gradient-to-r from-purple-500 to-purple-700"
+              className="w-full sm:w-auto px-6 py-2 rounded-full bg-gradient-to-r from-purple-500 to-purple-700"
             >
               Save
             </button>

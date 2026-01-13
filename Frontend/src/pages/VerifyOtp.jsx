@@ -43,26 +43,31 @@ const VerifyOtp = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black">
-      <div className="relative w-[420px] h-[380px] rounded-xl border border-purple-600 shadow-[0_0_40px_rgba(168,85,247,0.6)] overflow-hidden">
+    <div className="min-h-screen bg-black flex items-center justify-center px-4">
+      <div className="w-full max-w-md rounded-xl border border-purple-600 shadow-[0_0_40px_rgba(168,85,247,0.6)] overflow-hidden bg-black">
 
-        <div className="h-32 bg-gradient-to-br from-purple-700 to-purple-900 flex items-center justify-center">
-          <h1 className="text-2xl font-bold text-white">
+        {/* HEADER */}
+        <div className="h-28 md:h-32 bg-gradient-to-br from-purple-700 to-purple-900 flex items-center justify-center">
+          <h1 className="text-xl md:text-2xl font-bold text-white">
             Verify OTP
           </h1>
         </div>
 
-        <form onSubmit={handleVerify} className="px-10 pt-8 text-white">
+        {/* FORM */}
+        <form
+          onSubmit={handleVerify}
+          className="px-6 md:px-10 py-8 text-white space-y-6"
+        >
           {error && (
-            <p className="text-red-400 text-sm mb-4 text-center">
+            <p className="text-red-400 text-sm text-center">
               {error}
             </p>
           )}
 
-          <div className="mb-6">
-            <label className="text-sm mb-2 block">
+          <div>
+            <label className="text-sm mb-3 block text-center">
               Enter OTP sent to
-              <span className="text-purple-400 ml-1">
+              <span className="text-purple-400 ml-1 break-all">
                 {signupData?.email}
               </span>
             </label>
@@ -74,7 +79,7 @@ const VerifyOtp = () => {
                 setOtp(e.target.value.replace(/\D/g, ""))
               }
               maxLength={6}
-              className="w-full bg-transparent border-b border-gray-500 py-3 text-center tracking-[0.5em] text-lg outline-none"
+              className="w-full bg-transparent border-b border-gray-500 py-3 text-center tracking-[0.4em] text-lg outline-none"
               placeholder="••••••"
               required
             />

@@ -41,27 +41,31 @@ const ExpenseCategoryChart = ({ expenses, month }) => {
   }
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <PieChart>
-        <Pie
-          data={data}
-          cx="50%"
-          cy="50%"
-          outerRadius={100}
-          dataKey="value"
-          label
-        >
-          {data.map((_, index) => (
-            <Cell
-              key={index}
-              fill={COLORS[index % COLORS.length]}
-            />
-          ))}
-        </Pie>
-        <Tooltip />
-        <Legend />
-      </PieChart>
-    </ResponsiveContainer>
+    <div className="w-full">
+      <ResponsiveContainer width="100%" aspect={1.3}>
+        <PieChart>
+          <Pie
+            data={data}
+            dataKey="value"
+            outerRadius={90}
+            label
+          >
+            {data.map((_, index) => (
+              <Cell
+                key={index}
+                fill={COLORS[index % COLORS.length]}
+              />
+            ))}
+          </Pie>
+
+          <Tooltip />
+          <Legend
+            verticalAlign="bottom"
+            wrapperStyle={{ fontSize: "12px" }}
+          />
+        </PieChart>
+      </ResponsiveContainer>
+    </div>
   );
 };
 

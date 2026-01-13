@@ -46,118 +46,138 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black">
- 
-      <div className="relative w-[900px] h-[520px] rounded-xl border border-purple-600 shadow-[0_0_40px_rgba(168,85,247,0.6)] overflow-hidden">
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-br from-purple-700 to-purple-900 clip-diagonal flex items-center justify-center">
-          <div className="text-center px-10">
-            <h1 className="text-3xl font-bold text-white mb-3">
-              CREATE ACCOUNT
-            </h1>
-            <p className="text-gray-200 text-sm">
-              Start managing your finances smarter.
-            </p>
-          </div>
-        </div>
+    <div className="min-h-screen bg-black text-white">
+      {/* CONTENT */}
+      <div className="min-h-screen flex items-center justify-center px-4">
+        <div className="relative w-full max-w-md md:max-w-4xl md:h-[520px] rounded-xl border border-purple-600 shadow-[0_0_40px_rgba(168,85,247,0.6)] overflow-hidden bg-black">
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="relative z-10 w-1/2 h-full flex flex-col justify-center px-12 text-white"
-        >
-
-          {error && (
-            <p className="text-red-400 text-sm mb-4">
-              {error}
-            </p>
-          )}
-
-          <div className="mb-4">
-            <label className="text-sm mb-1 block">Name</label>
-            <input
-              {...register("name", { required: "Name is required" })}
-              className="w-full bg-transparent border-b border-gray-500 py-2 outline-none"
-            />
-            {errors.name && (
-              <p className="text-red-400 text-xs mt-1">
-                {errors.name.message}
+          {/* RIGHT PANEL (DESKTOP ONLY) */}
+          <div className="hidden md:flex absolute top-0 right-0 w-1/2 h-full bg-gradient-to-br from-purple-700 to-purple-900 items-center justify-center">
+            <div className="text-center px-10">
+              <h1 className="text-3xl font-bold mb-3">
+                CREATE ACCOUNT
+              </h1>
+              <p className="text-gray-200 text-sm">
+                Start managing your finances smarter.
               </p>
-            )}
+            </div>
           </div>
 
-          <div className="mb-4">
-            <label className="text-sm mb-1 block">Email</label>
-            <input
-              type="email"
-              {...register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: "Invalid email",
-                },
-              })}
-              className="w-full bg-transparent border-b border-gray-500 py-2 outline-none"
-            />
-            {errors.email && (
-              <p className="text-red-400 text-xs mt-1">
-                {errors.email.message}
-              </p>
-            )}
-          </div>
-
-          <div className="mb-4">
-            <label className="text-sm mb-1 block">Password</label>
-            <input
-              type="password"
-              {...register("password", {
-                required: "Password required",
-                minLength: {
-                  value: 6,
-                  message: "Min 6 characters",
-                },
-              })}
-              className="w-full bg-transparent border-b border-gray-500 py-2 outline-none"
-            />
-            {errors.password && (
-              <p className="text-red-400 text-xs mt-1">
-                {errors.password.message}
-              </p>
-            )}
-          </div>
-
-          <div className="mb-6">
-            <label className="text-sm mb-1 block">
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              {...register("confirmPassword", {
-                validate: (value) =>
-                  value === password || "Passwords do not match",
-              })}
-              className="w-full bg-transparent border-b border-gray-500 py-2 outline-none"
-            />
-            {errors.confirmPassword && (
-              <p className="text-red-400 text-xs mt-1">
-                {errors.confirmPassword.message}
-              </p>
-            )}
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-2 rounded-full bg-gradient-to-r from-purple-500 to-purple-700 hover:opacity-90 transition disabled:opacity-50"
+          {/* FORM */}
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="relative z-10 w-full md:w-1/2 h-full flex flex-col justify-center px-6 md:px-12 py-8"
           >
-            {loading ? "Sending OTP..." : "Send OTP"}
-          </button>
+            <h2 className="text-xl font-bold mb-6 md:hidden">
+              Create Account
+            </h2>
 
-          <p className="text-xs mt-6 text-gray-400">
-            Already have an account?{" "}
-            <Link to="/login" className="text-purple-400 hover:underline">
-              Login
-            </Link>
-          </p>
-        </form>
+            {error && (
+              <p className="text-red-400 text-sm mb-4">
+                {error}
+              </p>
+            )}
+
+            {/* NAME */}
+            <div className="mb-4">
+              <label className="text-sm mb-1 block">Name</label>
+              <input
+                {...register("name", {
+                  required: "Name is required",
+                })}
+                className="w-full bg-transparent border-b border-gray-500 py-2 outline-none"
+              />
+              {errors.name && (
+                <p className="text-red-400 text-xs mt-1">
+                  {errors.name.message}
+                </p>
+              )}
+            </div>
+
+            {/* EMAIL */}
+            <div className="mb-4">
+              <label className="text-sm mb-1 block">Email</label>
+              <input
+                type="email"
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: "Invalid email",
+                  },
+                })}
+                className="w-full bg-transparent border-b border-gray-500 py-2 outline-none"
+              />
+              {errors.email && (
+                <p className="text-red-400 text-xs mt-1">
+                  {errors.email.message}
+                </p>
+              )}
+            </div>
+
+            {/* PASSWORD */}
+            <div className="mb-4">
+              <label className="text-sm mb-1 block">Password</label>
+              <input
+                type="password"
+                {...register("password", {
+                  required: "Password required",
+                  minLength: {
+                    value: 6,
+                    message: "Min 6 characters",
+                  },
+                })}
+                className="w-full bg-transparent border-b border-gray-500 py-2 outline-none"
+              />
+              {errors.password && (
+                <p className="text-red-400 text-xs mt-1">
+                  {errors.password.message}
+                </p>
+              )}
+            </div>
+
+            {/* CONFIRM PASSWORD */}
+            <div className="mb-6">
+              <label className="text-sm mb-1 block">
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                {...register("confirmPassword", {
+                  validate: (value) =>
+                    value === password ||
+                    "Passwords do not match",
+                })}
+                className="w-full bg-transparent border-b border-gray-500 py-2 outline-none"
+              />
+              {errors.confirmPassword && (
+                <p className="text-red-400 text-xs mt-1">
+                  {errors.confirmPassword.message}
+                </p>
+              )}
+            </div>
+
+            {/* BUTTON */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-2 rounded-full bg-gradient-to-r from-purple-500 to-purple-700 hover:opacity-90 transition disabled:opacity-50"
+            >
+              {loading ? "Sending OTP..." : "Send OTP"}
+            </button>
+
+            {/* LOGIN LINK */}
+            <p className="text-xs mt-6 text-gray-400 text-center md:text-left">
+              Already have an account?{" "}
+              <Link
+                to="/login"
+                className="text-purple-400 hover:underline"
+              >
+                Login
+              </Link>
+            </p>
+          </form>
+        </div>
       </div>
     </div>
   );

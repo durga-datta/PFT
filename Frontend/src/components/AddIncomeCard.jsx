@@ -20,13 +20,13 @@ const AddIncomeCard = ({ onClose, onAdd, onUpdate, editData }) => {
     }
 
     reset();
-    onClose(); // ✅ close ONLY after DB + state sync
+    onClose();
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
-      <div className="w-[420px] rounded-xl border border-purple-600 bg-black p-6 shadow-[0_0_40px_rgba(168,85,247,0.6)]">
-        <h2 className="text-xl font-semibold text-center mb-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
+      <div className="w-full max-w-md bg-black border border-purple-600 rounded-xl p-5 md:p-6 shadow-[0_0_40px_rgba(168,85,247,0.6)] max-h-[90vh] overflow-y-auto">
+        <h2 className="text-lg md:text-xl font-semibold text-center mb-6">
           {editData ? "Edit Income" : "Add Income"}
         </h2>
 
@@ -68,18 +68,18 @@ const AddIncomeCard = ({ onClose, onAdd, onUpdate, editData }) => {
           />
 
           {/* Buttons */}
-          <div className="flex justify-between pt-4">
+          <div className="flex flex-col sm:flex-row gap-3 pt-4">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-full border border-gray-500"
+              className="w-full sm:w-auto px-4 py-2 rounded-full border border-gray-500 hover:bg-gray-500/10"
             >
               Cancel
             </button>
 
             <button
               type="submit"
-              className="px-6 py-2 rounded-full bg-gradient-to-r from-purple-500 to-purple-700"
+              className="w-full sm:w-auto px-6 py-2 rounded-full bg-gradient-to-r from-purple-500 to-purple-700"
             >
               {editData ? "Update" : "Save"}
             </button>
