@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
@@ -16,6 +17,18 @@ import VerifyOtp from "./pages/VerifyOtp";
 
 function App() {
   return (
+    <>
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            background: "#0f0f0f",
+            color: "#fff",
+            border: "1px solid #9333ea",
+          },
+        }}
+      />
+    
     <BrowserRouter>
       <Routes>
         {/* Public Routes */}
@@ -41,6 +54,7 @@ function App() {
         </Route>
       </Routes>
     </BrowserRouter>
+    </>
   );
 }
 

@@ -1,6 +1,9 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import FullPageLoader from "../components/FullPageLoader";
 
 const Login = () => {
   const {
@@ -11,31 +14,46 @@ const Login = () => {
 
   const navigate = useNavigate();
   const { login } = useAuth();
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data) => {
+    setLoading(true);
+    const toastId = toast.loading("Logging in...");
+
     try {
       await login(data.email, data.password);
+      toast.success("Welcome back 👋", { id: toastId });
       navigate("/home");
     } catch (err) {
-      alert(err.response?.data?.message || "Invalid credentials");
+      toast.error(
+        err.response?.data?.message || "Invalid credentials",
+        { id: toastId }
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <nav className="h-16 flex items-center px-12">
+    <div className="min-h-screen bg-black text-white relative">
+      {loading && <FullPageLoader />}
+
+      {/* NAVBAR */}
+      <nav className="h-16 flex items-center px-4 md:px-12">
         <Link
           to="/"
-          className="text-2xl font-bold text-purple-500 hover:text-purple-400 transition"
+          className="text-xl md:text-2xl font-bold text-purple-500 hover:text-purple-400 transition"
         >
           PFT
         </Link>
       </nav>
 
-      <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center">
-        <div className="relative w-[900px] h-[450px] rounded-xl border border-purple-600 shadow-[0_0_40px_rgba(168,85,247,0.6)] overflow-hidden">
+      {/* CONTENT */}
+      <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4">
+        <div className="relative w-full max-w-md md:max-w-4xl md:h-[450px] rounded-xl border border-purple-600 shadow-[0_0_40px_rgba(168,85,247,0.6)] overflow-hidden bg-black">
 
-          <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-br from-purple-700 to-purple-900 clip-diagonal flex items-center justify-center">
+          {/* RIGHT PANEL (DESKTOP ONLY) */}
+          <div className="hidden md:flex absolute top-0 right-0 w-1/2 h-full bg-gradient-to-br from-purple-700 to-purple-900 items-center justify-center">
             <div className="text-center px-10">
               <h1 className="text-3xl font-bold mb-3">
                 WELCOME BACK!
@@ -45,65 +63,73 @@ const Login = () => {
               </p>
             </div>
           </div>
+
+          {/* FORM */}
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="relative z-10 w-1/2 h-full flex flex-col justify-center px-12"
+            className="relative z-10 w-full md:w-1/2 h-full flex flex-col justify-center px-6 md:px-12 py-8"
           >
+            {/* MOBILE HEADING */}
+            <h2 className="text-xl font-bold mb-6 md:hidden">
+              Welcome back 👋
+            </h2>
+
+            {/* EMAIL */}
             <div className="mb-6">
               <label className="block text-sm font-semibold mb-2">
                 Email
               </label>
-              <div className="flex items-center border-b border-gray-500">
-                <input
-                  type="email"
-                  className="w-full bg-transparent py-2 outline-none text-sm"
-                  {...register("email", {
-                    required: "Email is required",
-                    pattern: {
-                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                      message: "Invalid email address",
-                    },
-                  })}
-                />
-                <span className="text-gray-400">✉️</span>
-              </div>
+              <input
+                disabled={loading}
+                type="email"
+                className="w-full bg-transparent border-b border-gray-500 py-2 outline-none disabled:opacity-50"
+                {...register("email", {
+                  required: "Email is required",
+                })}
+              />
               {errors.email && (
                 <p className="text-red-400 text-xs mt-1">
                   {errors.email.message}
                 </p>
               )}
             </div>
+
+            {/* PASSWORD */}
             <div className="mb-8">
               <label className="block text-sm font-semibold mb-2">
                 Password
               </label>
-              <div className="flex items-center border-b border-gray-500">
-                <input
-                  type="password"
-                  className="w-full bg-transparent py-2 outline-none text-sm"
-                  {...register("password", {
-                    required: "Password is required",
-                    minLength: {
-                      value: 6,
-                      message: "Minimum 6 characters required",
-                    },
-                  })}
-                />
-                <span className="text-gray-400">🔒</span>
-              </div>
+              <input
+                disabled={loading}
+                type="password"
+                className="w-full bg-transparent border-b border-gray-500 py-2 outline-none disabled:opacity-50"
+                {...register("password", {
+                  required: "Password is required",
+                })}
+              />
               {errors.password && (
                 <p className="text-red-400 text-xs mt-1">
                   {errors.password.message}
                 </p>
               )}
             </div>
+
+            {/* BUTTON */}
             <button
               type="submit"
-              className="w-full py-2 rounded-full bg-gradient-to-r from-purple-500 to-purple-700 hover:opacity-90 transition"
+              disabled={loading}
+              className="
+                w-full py-2 rounded-full
+                bg-gradient-to-r from-purple-500 to-purple-700
+                hover:opacity-90 transition
+                disabled:opacity-60 disabled:cursor-not-allowed
+              "
             >
               Login
             </button>
-            <p className="text-xs mt-6 text-gray-400">
+
+            {/* SIGNUP LINK */}
+            <p className="text-xs mt-6 text-gray-400 text-center md:text-left">
               Don&apos;t have an account?{" "}
               <Link
                 to="/signup"
