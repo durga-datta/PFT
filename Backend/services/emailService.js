@@ -1,31 +1,17 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,          // ✅ IMPORTANT (Render-safe)
-  secure: true,       // ✅ MUST be true for 465
-  auth: {
-    user: process.env.EMAIL,
-    pass: process.env.EMAIL_PASS, // App Password
-  },
-  connectionTimeout: 10000,
-  greetingTimeout: 10000,
-  socketTimeout: 10000,
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-/**
- * Send email safely (never crashes server)
- */
 export const sendEmail = async ({ to, subject, text }) => {
   try {
-    await transporter.sendMail({
-      from: `"PFT" <${process.env.EMAIL}>`,
+    await resend.emails.send({
+      from: "PFT <onboarding@resend.dev>",
       to,
       subject,
       text,
     });
   } catch (error) {
-    console.error("❌ EMAIL SEND FAILED:", error.message);
+    console.error("❌ EMAIL SEND FAILED:", error);
     throw new Error("EMAIL_FAILED");
   }
 };

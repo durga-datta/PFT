@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import { sendEmail } from "../services/emailService.js";
 
 /* =====================
-   UTILITIES
+   UTIL
 ===================== */
 const generateOtp = () =>
   Math.floor(100000 + Math.random() * 900000);
@@ -106,7 +106,7 @@ export const verifyOtp = (req, res) => {
 };
 
 /* =====================
-   REGISTER USER
+   REGISTER
 ===================== */
 export const register = async (req, res) => {
   try {
@@ -142,7 +142,7 @@ export const register = async (req, res) => {
 };
 
 /* =====================
-   LOGIN USER
+   LOGIN
 ===================== */
 export const login = (req, res) => {
   const { email, password } = req.body;
