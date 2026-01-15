@@ -1,32 +1,17 @@
 import db from "../config/db.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import nodemailer from "nodemailer";
+import { sendEmail } from "../services/emailService.js";
 
-const sendEmail = async (to, subject, text) => {
-  const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false,
-    auth: {
-      user: process.env.EMAIL,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
-
-  await transporter.verify();
-
-  await transporter.sendMail({
-    from: `"PFT" <${process.env.EMAIL}>`,
-    to,
-    subject,
-    text,
-  });
-};
-
+/* =====================
+   UTILITIES
+===================== */
 const generateOtp = () =>
   Math.floor(100000 + Math.random() * 900000);
 
+/* =====================
+   SEND OTP
+===================== */
 export const sendOtp = async (req, res) => {
   try {
     const { email } = req.body;
@@ -56,26 +41,38 @@ export const sendOtp = async (req, res) => {
           async (err) => {
             if (err) {
               console.error("OTP DB ERROR:", err);
-              return res.status(500).json({ message: "OTP DB error" });
+              return res
+                .status(500)
+                .json({ message: "OTP DB error" });
             }
 
-            await sendEmail(
-              email,
-              "Your OTP Verification Code",
-              `Your OTP is ${otp}. It expires in 10 minutes.`
-            );
+            try {
+              await sendEmail({
+                to: email,
+                subject: "Your OTP Verification Code",
+                text: `Your OTP is ${otp}. It expires in 10 minutes.`,
+              });
 
-            res.json({ message: "OTP sent to email" });
+              return res.json({ message: "OTP sent to email" });
+            } catch {
+              return res.status(500).json({
+                message:
+                  "Failed to send OTP email. Please try again later.",
+              });
+            }
           }
         );
       }
     );
   } catch (err) {
-    console.error("SEND OTP ERROR FULL:", err);
+    console.error("SEND OTP ERROR:", err);
     res.status(500).json({ message: "Failed to send OTP" });
   }
 };
 
+/* =====================
+   VERIFY OTP
+===================== */
 export const verifyOtp = (req, res) => {
   const { email, otp } = req.body;
 
@@ -83,7 +80,9 @@ export const verifyOtp = (req, res) => {
     "SELECT * FROM otp_verifications WHERE email=? ORDER BY id DESC LIMIT 1",
     [email],
     async (err, result) => {
-      if (err) return res.status(500).json({ message: "DB error" });
+      if (err)
+        return res.status(500).json({ message: "DB error" });
+
       if (!result.length)
         return res.status(400).json({ message: "OTP not found" });
 
@@ -96,14 +95,19 @@ export const verifyOtp = (req, res) => {
       if (!isValid)
         return res.status(400).json({ message: "Invalid OTP" });
 
-      db.query("DELETE FROM otp_verifications WHERE email=?", [email]);
+      db.query(
+        "DELETE FROM otp_verifications WHERE email=?",
+        [email]
+      );
 
       res.json({ success: true, message: "OTP verified" });
     }
   );
 };
 
-
+/* =====================
+   REGISTER USER
+===================== */
 export const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -137,6 +141,9 @@ export const register = async (req, res) => {
   }
 };
 
+/* =====================
+   LOGIN USER
+===================== */
 export const login = (req, res) => {
   const { email, password } = req.body;
 
