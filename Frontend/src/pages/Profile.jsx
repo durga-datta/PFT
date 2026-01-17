@@ -11,7 +11,6 @@ const Profile = () => {
     handleSubmit,
     setValue,
     watch,
-    formState: { errors },
   } = useForm();
 
   const newPassword = watch("newPassword");

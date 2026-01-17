@@ -2,6 +2,7 @@ import db from "../config/db.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { sendEmail } from "../services/emailService.js";
+import { otpEmailTemplate } from "../templates/otpEmail.js";
 
 /* =====================
    UTIL
@@ -51,6 +52,7 @@ export const sendOtp = async (req, res) => {
                 to: email,
                 subject: "Your OTP Verification Code",
                 text: `Your OTP is ${otp}. It expires in 10 minutes.`,
+                html: otpEmailTemplate({ otp }),
               });
 
               return res.json({ message: "OTP sent to email" });

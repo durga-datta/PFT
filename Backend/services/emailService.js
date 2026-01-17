@@ -1,14 +1,21 @@
-import { Resend } from "resend";
+import nodemailer from 'nodemailer';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL,
+    pass: process.env.EMAIL_PASS
+  }
+});
 
-export const sendEmail = async ({ to, subject, text }) => {
+export const sendEmail = async ({ to, subject, text, html }) => {
   try {
-    await resend.emails.send({
-      from: "PFT <onboarding@resend.dev>",
+    await transporter.sendMail({
+      from: `"PFT" <${process.env.EMAIL}>`,
       to,
       subject,
       text,
+      html,
     });
   } catch (error) {
     console.error("❌ EMAIL SEND FAILED:", error);

@@ -35,4 +35,14 @@ CREATE TABLE otp_verifications (
   expires_at DATETIME NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+CREATE TABLE budgets (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT,
+  category VARCHAR(50),
+  amount DECIMAL(10,2),
+  month VARCHAR(7), -- YYYY-MM format
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  UNIQUE KEY unique_budget (user_id, category, month)
+);
 

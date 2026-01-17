@@ -12,7 +12,7 @@ export const BudgetProvider = ({ children }) => {
     try {
       const res = await api.get("/budgets");
       setBudgets(res.data);
-    } catch (err) {
+    } catch {
       console.error("Fetch budgets failed");
     }
   };
