@@ -12,7 +12,6 @@ import Transactions from "./pages/Transactions";
 import Budgets from "./pages/Budgets";
 import PublicRoute from "./routes/PublicRoute";
 import ProtectedRoute from "./routes/ProtectedRoute";
-import VerifyOtp from "./pages/VerifyOtp";
 
 
 function App() {
@@ -37,7 +36,6 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/verify-otp" element={<VerifyOtp/>}/>
         </Route>
 
         {/* Protected Routes */}

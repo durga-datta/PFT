@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import api from "../api/axios";
+import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
 import FullPageLoader from "../components/FullPageLoader";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const { register: registerUser } = useAuth();
   const [loading, setLoading] = useState(false);
 
   const {
@@ -20,27 +21,20 @@ const Signup = () => {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    const toastId = toast.loading("Sending OTP...");
+    const toastId = toast.loading("Creating account...");
 
     try {
-      await api.post("/auth/send-otp", {
+      await registerUser({
+        name: data.name,
         email: data.email,
+        password: data.password,
       });
 
-      localStorage.setItem(
-        "signupData",
-        JSON.stringify({
-          name: data.name,
-          email: data.email,
-          password: data.password,
-        })
-      );
-
-      toast.success("OTP sent successfully 📩", { id: toastId });
-      navigate("/verify-otp");
+      toast.success("Account created successfully! 🎉", { id: toastId });
+      navigate("/home");
     } catch (err) {
       toast.error(
-        err.response?.data?.message || "Failed to send OTP",
+        err.response?.data?.message || "Failed to create account",
         { id: toastId }
       );
     } finally {
