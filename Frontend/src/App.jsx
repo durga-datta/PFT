@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
@@ -12,6 +12,7 @@ import Transactions from "./pages/Transactions";
 import Budgets from "./pages/Budgets";
 import PublicRoute from "./routes/PublicRoute";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import NotFound from "./pages/NotFound";
 
 
 function App() {
@@ -50,6 +51,9 @@ function App() {
           <Route path="transactions" element={<Transactions />} />
         </Route>
         </Route>
+
+        {/* Catch-all route for 404s */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
     </>
