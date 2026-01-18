@@ -3,12 +3,17 @@ dotenv.config();
 
 import express from "express";
 import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
 
 import authRoutes from "./routes/authRoutes.js";
 import expenseRoutes from "./routes/expenseRoutes.js";
 import incomeRoutes from "./routes/incomeRoutes.js";
 import budgetRoutes from "./routes/budgetRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
@@ -51,9 +56,16 @@ app.use("/api/income", incomeRoutes);
 app.use("/api/budgets", budgetRoutes);
 app.use("/api/profile", profileRoutes);
 
-app.get("/", (req, res) => {
-  res.send("🚀 PFT API is running");
-});
+// Serve static files from the React app build directory
+app.use(express.static(path.join(__dirname, '../Frontend/dist')));
+
+// Catch all handler: send back React's index.html file for any non-API routes
+// Uncomment below for SPA routing when deploying frontend with backend
+// app.get('*', (req, res) => {
+//   if (!req.path.startsWith('/api')) {
+//     res.sendFile(path.join(__dirname, '../Frontend/dist/index.html'));
+//   }
+// });
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
