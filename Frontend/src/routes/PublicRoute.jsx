@@ -1,8 +1,16 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { isAuthenticated } from "../utils/auth";
+import { useAuth } from "../context/AuthContext";
+import FullPageLoader from "../components/FullPageLoader";
 
 const PublicRoute = () => {
-  return isAuthenticated() ? <Navigate to="/" replace /> : <Outlet />;
+  const { user, loading } = useAuth();
+
+  // Show loading spinner while checking authentication
+  if (loading) {
+    return <FullPageLoader />;
+  }
+
+  return user ? <Navigate to="/home" replace /> : <Outlet />;
 };
 
 export default PublicRoute;
