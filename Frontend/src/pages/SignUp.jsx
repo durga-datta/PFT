@@ -159,7 +159,7 @@ const Signup = () => {
               disabled={loading}
               className="w-full py-2 rounded-full bg-gradient-to-r from-purple-500 to-purple-700 disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {loading ? "Sending OTP..." : "Send OTP"}
+              {loading ? "Creating Account..." : "Create Account"}
             </button>
 
             {/* LOGIN LINK */}
