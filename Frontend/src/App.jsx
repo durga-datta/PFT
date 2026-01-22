@@ -31,28 +31,15 @@ function App() {
     
     <BrowserRouter>
       <Routes>
-        {/* Public Routes */}
-        <Route element={<PublicRoute/>}>
-
-        <Route path="/" element={<Landing />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        </Route>
-
-        {/* Protected Routes */}
-        <Route element={<ProtectedRoute/>}>
-
-        <Route path="/" element={<Layout />}>
-          <Route path="home" element={<Dashboard/>} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="income" element={<Income />} />
-          <Route path="budgets" element= {<Budgets/>}/>
-          <Route path="expenses" element={<Expenses />} />
-          <Route path="transactions" element={<Transactions />} />
-        </Route>
-        </Route>
-
-        {/* Catch-all route for 404s */}
+        <Route path="/" element={<PublicRoute><Landing /></PublicRoute>} />
+        <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+        <Route path="/signup" element={<PublicRoute><SignUp /></PublicRoute>} />
+        <Route path="/home" element={<ProtectedRoute><Layout><Dashboard /></Layout></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><Layout><Profile /></Layout></ProtectedRoute>} />
+        <Route path="/income" element={<ProtectedRoute><Layout><Income /></Layout></ProtectedRoute>} />
+        <Route path="/budgets" element={<ProtectedRoute><Layout><Budgets /></Layout></ProtectedRoute>} />
+        <Route path="/expenses" element={<ProtectedRoute><Layout><Expenses /></Layout></ProtectedRoute>} />
+        <Route path="/transactions" element={<ProtectedRoute><Layout><Transactions /></Layout></ProtectedRoute>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

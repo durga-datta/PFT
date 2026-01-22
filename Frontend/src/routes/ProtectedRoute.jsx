@@ -2,7 +2,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import FullPageLoader from "../components/FullPageLoader";
 
-const ProtectedRoute = () => {
+const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
 
   // Show loading spinner while checking authentication
@@ -10,7 +10,7 @@ const ProtectedRoute = () => {
     return <FullPageLoader />;
   }
 
-  return user ? <Outlet /> : <Navigate to="/login" replace />;
+  return user ? children : <Navigate to="/login" replace />;
 };
 
 export default ProtectedRoute;

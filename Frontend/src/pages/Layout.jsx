@@ -2,7 +2,7 @@ import React from "react";
 import Sidebar from "../components/Sidebar";
 import { Outlet } from "react-router-dom";
 
-const Layout = () => {
+const Layout = ({ children }) => {
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="flex">
@@ -18,7 +18,7 @@ const Layout = () => {
             pt-16 md:pt-0
           "
         >
-          <Outlet />
+          {children}
         </main>
       </div>
     </div>
